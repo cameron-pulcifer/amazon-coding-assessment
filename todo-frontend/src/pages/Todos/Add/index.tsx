@@ -158,7 +158,7 @@ const TodosAddPage = () => {
                     type="checkbox"
                     id="todo-completed"
                     {...register('completed')}
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 text-white"
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                   />
                   <label
                     htmlFor="todo-completed"
