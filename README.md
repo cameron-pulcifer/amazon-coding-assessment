@@ -38,3 +38,29 @@ yarn dev
 ```
 
 Your React web app will be running at `http://localhost:3001`
+
+## Features
+
+**Express Backend**
+
+- TypeScript and Zod
+- Routes, controllers, and services
+- Drizzle ORM with repositories
+- Postgres in Docker volume
+- Validation middleware with Zod for validating the request body, query, and params
+- Error handling middleware
+
+**React Frontend**
+
+- TypeScript
+- React with Vite and React Compiler
+- React Router with declarative mode, 404 fallback, and a main layout
+- Tailwind CSS
+- Axios with custom service hooks
+- Presentational Page components
+- Page hooks to ViewModel logic, data fetching, state management, and navigation
+- Custom lifecycle hooks
+- Custom state management hooks
+- Basic Redux Toolkit slices and selectors
+- Custom components for common UI elements using Tailwind with merged class names
+- Date formatter for showing friend due dates
