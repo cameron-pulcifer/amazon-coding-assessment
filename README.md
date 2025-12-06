@@ -58,7 +58,8 @@ Your React web app will be running at `http://localhost:3001`
 - Tailwind CSS
 - Axios with custom service hooks
 - Presentational Page components
-- Page hooks to ViewModel logic, data fetching, state management, and navigation
+- Page hooks to handle ViewModel logic, data fetching, state management, and navigation
+- React Hook Form for form validation
 - Custom lifecycle hooks
 - Custom state management hooks
 - Basic Redux Toolkit slices and selectors
