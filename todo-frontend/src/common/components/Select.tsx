@@ -12,7 +12,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(({ id, hasError = fals
       ref={ref}
       id={id}
       aria-invalid={hasError ? 'true' : 'false'}
-      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border"
+      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border bg-white text-black"
       {...props}
     >
       {children}
