@@ -56,12 +56,12 @@ Your React web app will be running at `http://localhost:3001`
 - React with Vite and React Compiler
 - React Router with declarative mode, 404 fallback, main layout, and nested routes
 - Tailwind CSS
-- Axios with custom service hooks
+- Axios with service hooks
 - Presentational Page components
 - Page hooks to handle ViewModel logic, data fetching, state management, and navigation
 - React Hook Form for form validation
-- Custom lifecycle hooks
-- Custom state management hooks
+- Lifecycle hooks
+- State management hooks
 - Basic Redux Toolkit slices and selectors
-- Custom components for common UI elements using Tailwind with merged class names
+- Components for common UI elements using Tailwind with merged class names
 - Date formatter for showing friendly due dates
