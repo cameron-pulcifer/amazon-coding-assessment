@@ -27,7 +27,37 @@ const TodosEditPage = () => {
     isSaving,
   } = useEditTodosPage();
 
-  if (loading || !todo || categories.length === 0) {
+  if (loading) {
+    return null;
+  }
+
+  // Show error in modal if todo not found
+  if (!todo && errorMessage) {
+    return (
+      <Modal
+        open
+        onClose={onClose}
+      >
+        <ModalContent>
+          <ModalHeader
+            icon={PencilSquareIcon}
+            iconBgColor="bg-yellow-100"
+            iconColor="text-yellow-600"
+            title="Edit To-Do"
+          />
+          <div className="py-8 text-center">
+            <p className="text-gray-700 text-lg font-medium mb-2">Task not found</p>
+            <p className="text-gray-600">This item could not be found. It may have been deleted.</p>
+          </div>
+          <ModalActions>
+            <SecondaryButton onClick={onClose}>Close</SecondaryButton>
+          </ModalActions>
+        </ModalContent>
+      </Modal>
+    );
+  }
+
+  if (!todo || categories.length === 0) {
     return null;
   }
 

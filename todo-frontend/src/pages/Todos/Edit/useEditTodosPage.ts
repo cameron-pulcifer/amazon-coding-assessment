@@ -1,16 +1,16 @@
 import dayjs from 'dayjs';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router';
 import useMount from '../../../common/hooks/useMount';
 import useOnce from '../../../common/hooks/useOnce';
-import usePageLoader from '../../../common/hooks/usePageLoader';
+import useStateReducer from '../../../common/hooks/useStateReducer';
 import useCategoryService from '../../../services/useCategoryService';
 import useTodoService from '../../../services/useTodoService';
 import useAppDispatch from '../../../store/hooks/useAppDispatch';
 import useAppSelector from '../../../store/hooks/useAppSelector';
+import type { Todo } from '../../../types/Todo';
 import { selectCategories, setCategories } from '../../../store/slices/categoriesSlice';
-import { selectCriteria, selectTodoById, setTodos, updateTodo } from '../../../store/slices/todosSlice';
+import { selectTodoById, updateTodo } from '../../../store/slices/todosSlice';
 
 type TodoFormData = {
   title: string;
@@ -26,20 +26,35 @@ const useEditTodosPage = () => {
   const navigate = useNavigate();
   const { id = '' } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const todo = useAppSelector(selectTodoById(id));
+  const todoStore = useAppSelector(selectTodoById(id));
   const categories = useAppSelector(selectCategories);
-  const criteria = useAppSelector(selectCriteria);
-  const [isSaving, setIsSaving] = useState(false);
-  const [{ errorMessage, loading }, setState] = usePageLoader();
+  const [{ errorMessage, isSaving, loading, todoState }, setState] = useStateReducer<{
+    errorMessage: string | null;
+    isSaving: boolean;
+    loading: boolean;
+    todoState: Todo | null;
+  }>({
+    errorMessage: null,
+    isSaving: false,
+    loading: false,
+    todoState: null,
+  });
+
+  const todo = todoStore || todoState;
 
   useMount(async () => {
     if (!id) return;
     try {
       setState({ loading: true });
-      // Load todos if we don't have the specific todo
-      if (!todo) {
-        const data = await service.getTodos(criteria);
-        dispatch(setTodos(data));
+      // Fetch the specific to-do by ID if not in Redux
+      // can't append to list because we don't know the category since it's not in the route - could be an enhancement
+      if (!todoStore) {
+        const data = await service.getTodoById(id);
+        if (data) {
+          setState({ todoState: data });
+        } else {
+          setState({ errorMessage: 'Todo not found' });
+        }
       }
       // Load categories if we don't have them
       if (!categories.length) {
@@ -47,7 +62,7 @@ const useEditTodosPage = () => {
         dispatch(setCategories(data));
       }
     } catch (err) {
-      setState({ errorMessage: (err instanceof Error && err.message) || 'Failed to load data' });
+      setState({ errorMessage: (err instanceof Error && err.message) || 'Todo not found' });
     } finally {
       setState({ loading: false });
     }
@@ -100,7 +115,7 @@ const useEditTodosPage = () => {
     if (!todo) return;
 
     try {
-      setIsSaving(true);
+      setState({ isSaving: true });
 
       // Add seconds to datetime-local format if not present
       const dueDate = data.dueDate.length === 16 ? `${data.dueDate}:00` : data.dueDate;
@@ -118,7 +133,7 @@ const useEditTodosPage = () => {
     } catch (error) {
       console.error('Failed to update todo:', error);
     } finally {
-      setIsSaving(false);
+      setState({ isSaving: false });
     }
   };
 

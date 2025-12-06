@@ -28,10 +28,14 @@ const useEditCategoryPage = () => {
       if (!category) {
         setState({ loading: true });
         const data = await service.getCategoryById(id);
-        dispatch(updateCategory(data));
+        if (!data) {
+          setState({ errorMessage: 'Category not found' });
+        } else {
+          dispatch(updateCategory(data));
+        }
       }
     } catch (err) {
-      setState({ errorMessage: (err instanceof Error && err.message) || 'Failed to load category' });
+      setState({ errorMessage: (err instanceof Error && err.message) || 'Category not found' });
     } finally {
       setState({ loading: false });
     }

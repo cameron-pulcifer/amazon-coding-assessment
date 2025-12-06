@@ -14,7 +14,37 @@ const CategoriesEditPage = () => {
   const { category, loading, errorMessage, onClearError, onClose, register, handleSubmit, errors, isValid, isSaving } =
     useEditCategoryPage();
 
-  if (loading || !category) {
+  if (loading) {
+    return null;
+  }
+
+  // Show error in modal if category not found
+  if (!category && errorMessage) {
+    return (
+      <Modal
+        open
+        onClose={onClose}
+      >
+        <ModalContent>
+          <ModalHeader
+            icon={PencilSquareIcon}
+            iconBgColor="bg-yellow-100"
+            iconColor="text-yellow-600"
+            title="Edit Category"
+          />
+          <div className="text-center py-8">
+            <p className="text-gray-700 text-lg font-medium mb-2">Category not found</p>
+            <p className="text-gray-600">This category could not be found. It may have been deleted.</p>
+          </div>
+          <ModalActions>
+            <SecondaryButton onClick={onClose}>Close</SecondaryButton>
+          </ModalActions>
+        </ModalContent>
+      </Modal>
+    );
+  }
+
+  if (!category) {
     return null;
   }
 

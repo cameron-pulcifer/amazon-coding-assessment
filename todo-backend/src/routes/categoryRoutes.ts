@@ -8,10 +8,10 @@ import { IdParamSchema } from './dto/IdParamSchema';
 
 const router = Router();
 
-router.get('/', ctrl.getAllCategories);
-router.get('/:id', validationMiddleware({ params: IdParamSchema }), ctrl.getCategoryById);
+router.get('/', ctrl.findAllCategories);
+router.get('/:id', validationMiddleware({ params: IdParamSchema }), ctrl.findCategoryById);
 router.post('/', validationMiddleware({ body: AddCategorySchema }), ctrl.addCategory);
-router.put('/:id', validationMiddleware({ body: CategorySchema, params: IdParamSchema }), ctrl.updateCategory);
+router.put('/:id', validationMiddleware({ body: CategorySchema, params: IdParamSchema }), ctrl.modifyCategory);
 router.delete('/:id', validationMiddleware({ params: IdParamSchema }), ctrl.removeCategory);
 
 export default router;

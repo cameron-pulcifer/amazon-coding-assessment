@@ -5,19 +5,19 @@ import { categories, Todo, todos } from '../schema';
 
 // future: pagination - not specified in assessment
 
-const addTodo = async (todo: Omit<Todo, 'id' | 'createdAt'>) => {
+const add = async (todo: Omit<Todo, 'id' | 'createdAt'>) => {
   const result = await db.insert(todos).values(todo).returning();
   const [first] = result;
   return first ?? null;
 };
 
-const deleteTodo = async (id: string) => {
+const remove = async (id: string) => {
   const result = await db.delete(todos).where(eq(todos.id, id)).returning();
   const [first] = result;
   return first ?? null;
 };
 
-const getAllTodos = async (criteria: TodoSearchCriteria) => {
+const findAll = async (criteria: TodoSearchCriteria) => {
   const { orderBy = 'dueDate', sortDirection = 'desc', completed = 'all' } = criteria;
 
   const dateOrder = sortDirection === 'asc' ? asc(todos[orderBy]) : desc(todos[orderBy]);
@@ -47,7 +47,7 @@ const getAllTodos = async (criteria: TodoSearchCriteria) => {
   return query.orderBy(asc(categories.name), dateOrder);
 };
 
-const getTodoById = async (id: string) => {
+const findById = async (id: string) => {
   return await db.query.todos.findFirst({
     where: (todos, { eq }) => eq(todos.id, id),
     with: {
@@ -56,16 +56,16 @@ const getTodoById = async (id: string) => {
   });
 };
 
-const updateTodo = async (todo: Partial<Todo> & Pick<Todo, 'id'>) => {
+const modify = async (todo: Partial<Todo> & Pick<Todo, 'id'>) => {
   const result = await db.update(todos).set(todo).where(eq(todos.id, todo.id)).returning();
   const [first] = result;
   return first ?? null;
 };
 
 export default {
-  addTodo,
-  deleteTodo,
-  getAllTodos,
-  getTodoById,
-  updateTodo,
+  add,
+  remove,
+  findAll,
+  findById,
+  modify,
 };
