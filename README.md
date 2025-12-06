@@ -4,6 +4,12 @@
 
 Note: due to the npm worm, use the `--ignore-scripts` flag when running `yarn` commands
 
+**Prerequisites**
+
+- Install Node version 22.19.0 or higher
+- Globally install Yarn - `npm install -g yarn`
+- Install Docker and make sure it's running
+
 **Set up the backend**
 
 Open a terminal window and run the following commands:
