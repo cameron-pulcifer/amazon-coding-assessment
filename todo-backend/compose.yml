@@ -1,0 +1,28 @@
+services:
+  nodikar-db:
+    image: postgres:18
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: amazon-todos
+    ports:
+      - '5439:5432'
+    volumes:
+      - amazon-todos-data:/var/lib/postgresql/18/docker
+
+  nodikar-pgweb:
+    image: sosedoff/pgweb
+    depends_on:
+      - nodikar-db
+    restart: always
+    environment:
+      PGWEB_DATABASE_URL: postgresql://postgres:postgres@amazon-todos-db:5432/amazon-todos?sslmode=disable
+    ports:
+      - '5069:8081'
+volumes:
+  amazon-todos-data:
+
+networks:
+  default:
+    name: amazon-todos
