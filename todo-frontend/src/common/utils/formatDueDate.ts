@@ -4,6 +4,8 @@
  */
 export const formatDueDate = (isoDate: string): string => {
   const now = new Date();
+  now.setSeconds(0, 0);
+
   const dueDate = new Date(isoDate);
   const diffMs = dueDate.getTime() - now.getTime();
   const diffMinutes = Math.floor(diffMs / (1000 * 60));
@@ -18,20 +20,20 @@ export const formatDueDate = (isoDate: string): string => {
 
     // Less than 1 hour ago
     if (absMinutes < 60) {
-      if (absMinutes <= 1) return 'due 1 minute ago';
-      return `due ${absMinutes} minutes ago`;
+      if (absMinutes <= 1) return '1 minute ago';
+      return `${absMinutes} minutes ago`;
     }
 
     // Less than 24 hours ago
     if (absHours < 24) {
-      if (absHours === 1) return 'due 1 hour ago';
-      return `due ${absHours} hours ago`;
+      if (absHours === 1) return '1 hour ago';
+      return `${absHours} hours ago`;
     }
 
     // Days ago
     if (absDays < 7) {
-      if (absDays === 1) return 'due 1 day ago';
-      return `due ${absDays} days ago`;
+      if (absDays === 1) return '1 day ago';
+      return `${absDays} days ago`;
     }
 
     return formatShortDate(dueDate);
